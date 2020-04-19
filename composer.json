@@ -1,0 +1,43 @@
+{
+    "name": "aryehraber/statamic-color-extractor",
+    "type": "statamic-addon",
+    "description": "",
+    "keywords": [
+        "statamic",
+        "image color",
+        "color extractor"
+    ],
+    "homepage": "https://github.com/aryehraber/statamic-color-extractor",
+    "license": "MIT",
+    "require": {
+        "league/color-extractor": "0.3.*",
+        "statamic/cms": "3.0.*@beta"
+    },
+    "autoload": {
+        "psr-4": {
+            "AryehRaber\\ColorExtractor\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aryeh Raber",
+            "email": "aryeh.raber@gmail.com",
+            "homepage": "https://aryeh.dev",
+            "role": "Developer"
+        }
+    ],
+    "extra": {
+        "statamic": {
+            "name": "ColorExtractor",
+            "description": "",
+            "version": "1.0.0"
+        },
+        "laravel": {
+            "providers": [
+                "AryehRaber\\ColorExtractor\\ColorExtractorServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
