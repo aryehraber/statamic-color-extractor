@@ -87,6 +87,6 @@ fields:
 
 ## Credits
 
-https://github.com/thephpleague/color-extractor
+Inspiration: https://github.com/sylvainjule/kirby-colorextractor
 
-https://github.com/sylvainjule/kirby-colorextractor
+Color Extractor: https://github.com/thephpleague/color-extractor
