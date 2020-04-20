@@ -4,7 +4,7 @@
 
 This addon provides a new Modifier which takes an image asset and returns its dominant (or average) color as a HEX value.
 
-![Color Extractor example](https://user-images.githubusercontent.com/5065331/79727966-7b8e3a00-82ed-11ea-870a-8a5f4e0d05e8.jpg)
+![Color Extractor](https://user-images.githubusercontent.com/5065331/79727966-7b8e3a00-82ed-11ea-870a-8a5f4e0d05e8.jpg)
 
 ## Installation
 
@@ -18,64 +18,6 @@ Publish the config file:
 
 ```
 php artisan vendor:publish --provider="AryehRaber\ColorExtractor\ColorExtractorServiceProvider" --tag="config"
-```
-
-Alternately, you can manually setup the config file by creating `color_extractor.php` inside your project's config directory:
-
-```php
-<?php
-
-return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Color Extraction Accuracy
-    |--------------------------------------------------------------------------
-    |
-    | This value (in pixels) determines the width/height at which the image
-    | is resized before processing. Higher values will result in more
-    | accurate color extraction but will take longer to process.
-    |
-    */
-    'accuracy' => 500,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Fallback Color
-    |--------------------------------------------------------------------------
-    |
-    | Transparent images require a fallback color since it isn't possible
-    | to extract from a color that has an alpha value.
-    |
-    */
-    'fallback' => '#000000',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Default Color Extraction Strategy
-    |--------------------------------------------------------------------------
-    |
-    | The are two color extraction strategies; "dominant" analyses all pixels
-    | in the image and calculates the most dominant color, while "average"
-    | reduces the image down to 1 pixel and extracts its color.
-    |
-    | Supported: "dominant", "average"
-    |
-    */
-    'default_type' => 'dominant',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Temp. Storage Directory
-    |--------------------------------------------------------------------------
-    |
-    | During image processing, the image needs to temporarily be stored on
-    | the filesystem, once done it will automatically be removed.
-    |
-    */
-    'temp_dir' => storage_path('color_extractor'),
-
-];
 ```
 
 ## Usage
@@ -105,7 +47,7 @@ image: my-colorful-image.jpg
 {{ /image }}
 ```
 
-By default, the underlying color extractor tries to find the most dominant color in the image, however, results can vary, therefore an `average` param can be passed in to instead find the average color found in the image.
+By default, the underlying color extractor tries to find the most dominant color in the image, however, results can vary (see example screenshot below), therefore an `average` param can be passed in to instead find the average color found in the image.
 
 ```html
 {{ image | color:average }}
@@ -117,7 +59,13 @@ The default type can be changed to `average` instead via the config file, which 
 {{ image | color:dominant }}
 ```
 
-### Editing The Color
+### Dominant vs. Average
+
+Example screenshot to demonstrate the difference between the two color extraction strategies:
+
+![Color Extractor Diff](https://user-images.githubusercontent.com/5065331/79736664-75eb2100-82fa-11ea-92df-be734e426a56.jpg)
+
+### Manually Editing Colors
 
 Whenever a color is extracted from an image, it's added to the asset's meta data. This means you can manually override it by adding the following fields to your `assets.yaml` blueprint:
 
