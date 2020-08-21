@@ -1,4 +1,4 @@
-# Color Extractor (Statamic 3)
+# Color Extractor
 
 **Extract colors from images.**
 
