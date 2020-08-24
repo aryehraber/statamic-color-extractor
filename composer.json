@@ -1,7 +1,7 @@
 {
     "name": "aryehraber/statamic-color-extractor",
     "type": "statamic-addon",
-    "description": "",
+    "description": "Extract colors from images.",
     "keywords": [
         "statamic",
         "image color",
@@ -11,7 +11,7 @@
     "license": "MIT",
     "require": {
         "league/color-extractor": "0.3.*",
-        "statamic/cms": "3.0.*@beta"
+        "statamic/cms": "^3.0"
     },
     "autoload": {
         "psr-4": {
@@ -29,8 +29,8 @@
     "extra": {
         "statamic": {
             "name": "ColorExtractor",
-            "description": "",
-            "version": "1.0.0"
+            "description": "Extract colors from images.",
+            "version": "1.0.1"
         },
         "laravel": {
             "providers": [
