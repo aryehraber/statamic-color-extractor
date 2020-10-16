@@ -11,21 +11,20 @@
     "license": "MIT",
     "require": {
         "league/color-extractor": "0.3.*",
-        "statamic/cms": "^3.0"
+        "statamic/cms": "^3.0",
+        "davidgorges/color-contrast": "^1.0"
     },
     "autoload": {
         "psr-4": {
             "AryehRaber\\ColorExtractor\\": "src"
         }
     },
-    "authors": [
-        {
-            "name": "Aryeh Raber",
-            "email": "aryeh.raber@gmail.com",
-            "homepage": "https://aryeh.dev",
-            "role": "Developer"
-        }
-    ],
+    "authors": [{
+        "name": "Aryeh Raber",
+        "email": "aryeh.raber@gmail.com",
+        "homepage": "https://aryeh.dev",
+        "role": "Developer"
+    }],
     "extra": {
         "statamic": {
             "name": "ColorExtractor",

@@ -34,20 +34,19 @@ Simply add the `color` modifier to an image asset to output the HEX color value:
 ---
 image: my-colorful-image.jpg
 ---
+
 <div style="border-color: {{ image | color }};">
-  <img src="{{ image }}">
+  <img src="{{ image }}" />
 </div>
 
-// OR
-
-{{ image }}
-  <div style="border-color: {{ url | color }};">
-    <img src="{{ glide:id }}">
-  </div>
+// OR {{ image }}
+<div style="border-color: {{ url | color }};">
+  <img src="{{ glide:id }}" />
+</div>
 {{ /image }}
 ```
 
-By default, the underlying color extractor tries to find the most dominant color in the image, however, results can vary (see example screenshot below), therefore an `average` param can be passed in to instead find the average color found in the image.
+By default, the underlying color extractor tries to find the most dominant color in the image, however, results can vary (see example screenshot below). Therefore an `average` param can be passed in to instead find the average color found in the image.
 
 ```html
 {{ image | color:average }}
@@ -57,6 +56,12 @@ The default type can be changed to `average` instead via the config file, which 
 
 ```html
 {{ image | color:dominant }}
+```
+
+The parameter `contrast` will try to find a color from the image palette with the most contrast to the dominant color:
+
+```html
+{{ image | color:contrast }}
 ```
 
 ### Dominant vs. Average
@@ -73,13 +78,11 @@ Whenever a color is extracted from an image, it's added to the asset's meta data
 title: Asset
 fields:
   # existing fields
-  -
-    handle: color_dominant
+  - handle: color_dominant
     field:
       display: Dominant Color
       type: color
-  -
-    handle: color_average
+  - handle: color_average
     field:
       display: Average Color
       type: color
