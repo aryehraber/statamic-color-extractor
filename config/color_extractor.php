@@ -36,9 +36,9 @@ return [
     |   the most dominant color
     | - "contrast" will try to find a color from palette with the most contrast to
     |   the dominant color
-    | - "average" reduces the image down to 1 pixel and extracts its color
+    | - "average" reduces the image down to a tiny size and extracts its color
     |
-    | Supported: "dominant", "average", "contrast"
+    | Supported: "dominant", "contrast", "average"
     |
     */
     'default_type' => 'dominant',
