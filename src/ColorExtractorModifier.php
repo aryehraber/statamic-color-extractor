@@ -3,6 +3,7 @@
 namespace AryehRaber\ColorExtractor;
 
 use Statamic\Support\Arr;
+use Statamic\Support\Str;
 use Statamic\Assets\Asset;
 use Statamic\Facades\File;
 use Statamic\Facades\Folder;
@@ -69,40 +70,45 @@ class ColorExtractorModifier extends Modifier
 
         $extractor = new ColorExtractor($palette, Color::fromHexToInt(config('color_extractor.fallback')));
 
-        $paletteSize = 'dominant' === $this->type ? 1 : 5;
+        $strategyMethod = sprintf('get%sColor', Str::title($this->type));
 
-        $colors = collect($extractor->extract($paletteSize))
-            ->map(function ($int) {
-                return Color::fromIntToHex($int);
-            });
+        return $this->{$strategyMethod}($extractor);
+    }
+
+    public function getDominantColor($extractor)
+    {
+        return Color::fromIntToHex($extractor->extract(1)[0]);
+    }
+
+    public function getAverageColor($extractor)
+    {
+        return Color::fromIntToHex($extractor->extract(1)[0]);
+    }
+
+    public function getContrastColor($extractor)
+    {
+        $colors = collect($extractor->extract(5))->map(function ($int) {
+            return Color::fromIntToHex($int);
+        });
 
         $dominant = $colors->get(0);
 
-        switch ($this->type) {
-            case 'complementary':
-            case 'contrast':
+        $contrast = new ColorContrast();
+        $contrast->addColors($colors->toArray());
 
-            $contrast = new ColorContrast();
-            $contrast->addColors($colors->toArray());
+        $combinations = $contrast->getCombinations(ColorContrast::MIN_CONTRAST_AA);
+        $complementary = collect($combinations)
+            ->filter(function ($combination) use ($dominant) {
+                return in_array($dominant, [
+                    '#'.$combination->getBackground(),
+                ]);
+            })
+            ->sortByDesc(function ($combination) {
+                return $combination->getContrast();
+            })
+            ->get(0);
 
-            $combinations = $contrast->getCombinations(ColorContrast::MIN_CONTRAST_AA);
-            $complementary = collect($combinations)
-                ->filter(function ($combination) use ($dominant) {
-                    return \in_array($dominant, [
-                        '#'.$combination->getBackground(),
-                    ]);
-                })
-                ->sortByDesc(function ($combination) {
-                    return $combination->getContrast();
-                })
-                ->get(0);
-
-            return $complementary ? '#'.$complementary->getForeground() : $colors->get(1);
-            break;
-
-        }
-
-        return $dominant;
+        return $complementary ? '#'.$complementary->getForeground() : $colors->get(1);
     }
 
     protected function processImage()
