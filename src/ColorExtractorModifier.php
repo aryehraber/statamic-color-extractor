@@ -132,7 +132,7 @@ class ColorExtractorModifier extends Modifier
 
     protected function resizeDimensions()
     {
-        $size = $this->type === 'average' ? 1 : config('color_extractor.accuracy');
+        $size = $this->type === 'average' ? 2 : config('color_extractor.accuracy');
 
         return [
             $this->asset->orientation() === 'landscape' ? $size : null, // width
