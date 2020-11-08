@@ -66,11 +66,11 @@ The `contrast` parameter will try to find a color from the image palette with th
 {{ image | color:contrast }}
 ```
 
-### Dominant vs. Average
+### Dominant vs. Average vs. Contrast
 
-Example screenshot to demonstrate the difference between the two color extraction strategies:
+Example screenshot to demonstrate the difference between the color extraction strategies:
 
-![Color Extractor Diff](https://user-images.githubusercontent.com/5065331/79736664-75eb2100-82fa-11ea-92df-be734e426a56.jpg)
+![Color Extractor Diff](https://user-images.githubusercontent.com/5065331/98469153-3c1e3100-21de-11eb-9b04-3a82baa19bd4.jpg)
 
 ### Manually Editing Colors
 
