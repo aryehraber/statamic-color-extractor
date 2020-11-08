@@ -30,11 +30,15 @@ return [
     | Default Color Extraction Strategy
     |--------------------------------------------------------------------------
     |
-    | The are two color extraction strategies; "dominant" analyses all pixels
-    | in the image and calculates the most dominant color, while "average"
-    | reduces the image down to 1 pixel and extracts its color.
+    | The are three color extraction strategies:
     |
-    | Supported: "dominant", "average"
+    | - "dominant" (used by default) analyses all pixels in the image and calculates
+    |   the most dominant color
+    | - "contrast" will try to find a color from palette with the most contrast to
+    |   the dominant color
+    | - "average" reduces the image down to 1 pixel and extracts its color
+    |
+    | Supported: "dominant", "average", "contrast"
     |
     */
     'default_type' => 'dominant',

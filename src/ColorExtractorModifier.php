@@ -6,6 +6,7 @@ use Statamic\Support\Arr;
 use Statamic\Assets\Asset;
 use Statamic\Facades\File;
 use Statamic\Facades\Folder;
+use ColorContrast\ColorContrast;
 use League\ColorExtractor\Color;
 use Statamic\Modifiers\Modifier;
 use League\ColorExtractor\Palette;
@@ -21,6 +22,8 @@ class ColorExtractorModifier extends Modifier
     protected $img;
 
     protected $type;
+
+    protected static $strategies = ['dominant', 'average', 'contrast'];
 
     public function index($value, $params, $context)
     {
@@ -43,7 +46,7 @@ class ColorExtractorModifier extends Modifier
     {
         $this->asset = Asset::find($value);
 
-        $this->type = in_array(Arr::get($params, 0), ['dominant', 'average'])
+        $this->type = in_array(Arr::get($params, 0), self::$strategies)
             ? Arr::get($params, 0)
             : config('color_extractor.default_type');
 
@@ -66,7 +69,40 @@ class ColorExtractorModifier extends Modifier
 
         $extractor = new ColorExtractor($palette, Color::fromHexToInt(config('color_extractor.fallback')));
 
-        return Color::fromIntToHex($extractor->extract(1)[0]);
+        $paletteSize = 'dominant' === $this->type ? 1 : 5;
+
+        $colors = collect($extractor->extract($paletteSize))
+            ->map(function ($int) {
+                return Color::fromIntToHex($int);
+            });
+
+        $dominant = $colors->get(0);
+
+        switch ($this->type) {
+            case 'complementary':
+            case 'contrast':
+
+            $contrast = new ColorContrast();
+            $contrast->addColors($colors->toArray());
+
+            $combinations = $contrast->getCombinations(ColorContrast::MIN_CONTRAST_AA);
+            $complementary = collect($combinations)
+                ->filter(function ($combination) use ($dominant) {
+                    return \in_array($dominant, [
+                        '#'.$combination->getBackground(),
+                    ]);
+                })
+                ->sortByDesc(function ($combination) {
+                    return $combination->getContrast();
+                })
+                ->get(0);
+
+            return $complementary ? '#'.$complementary->getForeground() : $colors->get(1);
+            break;
+
+        }
+
+        return $dominant;
     }
 
     protected function processImage()
@@ -96,7 +132,7 @@ class ColorExtractorModifier extends Modifier
 
     protected function resizeDimensions()
     {
-        $size = $this->type === 'dominant' ? config('color_extractor.accuracy') : 1;
+        $size = $this->type === 'average' ? 1 : config('color_extractor.accuracy');
 
         return [
             $this->asset->orientation() === 'landscape' ? $size : null, // width
