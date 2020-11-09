@@ -140,6 +140,10 @@ class ColorExtractorModifier extends Modifier
     {
         $size = $this->type === 'average' ? 2 : config('color_extractor.accuracy');
 
+        if ($this->asset->orientation() === 'square') {
+            return [$size, $size];
+        }
+
         return [
             $this->asset->orientation() === 'landscape' ? $size : null, // width
             $this->asset->orientation() === 'portrait' ? $size : null, // height
