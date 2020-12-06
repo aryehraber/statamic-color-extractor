@@ -11,6 +11,7 @@ use ColorContrast\ColorContrast;
 use League\ColorExtractor\Color;
 use Statamic\Modifiers\Modifier;
 use League\ColorExtractor\Palette;
+use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 use League\ColorExtractor\ColorExtractor;
 
@@ -157,6 +158,8 @@ class ColorExtractorModifier extends Modifier
         Arr::set($meta, "data.color_{$this->type}", $color);
 
         $this->asset->writeMeta($meta);
+
+        Cache::forget($this->asset->metaCacheKey());
     }
 
     protected function cleanUp()
