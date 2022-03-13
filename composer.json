@@ -10,21 +10,25 @@
     "homepage": "https://github.com/aryehraber/statamic-color-extractor",
     "license": "MIT",
     "require": {
-        "statamic/cms": "^3.0",
         "jonaskohl/color-extractor": "^0.4",
         "davidgorges/color-contrast": "^1.0"
+    },
+    "require-dev": {
+        "statamic/cms": "^3.0"
     },
     "autoload": {
         "psr-4": {
             "AryehRaber\\ColorExtractor\\": "src"
         }
     },
-    "authors": [{
-        "name": "Aryeh Raber",
-        "email": "aryeh.raber@gmail.com",
-        "homepage": "https://aryeh.dev",
-        "role": "Developer"
-    }],
+    "authors": [
+        {
+            "name": "Aryeh Raber",
+            "email": "aryeh.raber@gmail.com",
+            "homepage": "https://aryeh.dev",
+            "role": "Developer"
+        }
+    ],
     "extra": {
         "statamic": {
             "name": "ColorExtractor",
@@ -38,5 +42,10 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "pixelfear/composer-dist-plugin": true
+        }
+    }
 }
