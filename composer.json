@@ -10,8 +10,8 @@
     "homepage": "https://github.com/aryehraber/statamic-color-extractor",
     "license": "MIT",
     "require": {
-        "league/color-extractor": "0.3.*",
         "statamic/cms": "^3.0",
+        "jonaskohl/color-extractor": "^0.4",
         "davidgorges/color-contrast": "^1.0"
     },
     "autoload": {

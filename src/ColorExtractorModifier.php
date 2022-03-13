@@ -2,18 +2,18 @@
 
 namespace AryehRaber\ColorExtractor;
 
-use Statamic\Support\Arr;
-use Statamic\Support\Str;
+use ColorContrast\ColorContrast;
+use Illuminate\Support\Facades\Cache;
+use Intervention\Image\Facades\Image;
+use JonasKohl\ColorExtractor\Color;
+use JonasKohl\ColorExtractor\ColorExtractor;
+use JonasKohl\ColorExtractor\Palette;
 use Statamic\Assets\Asset;
 use Statamic\Facades\File;
 use Statamic\Facades\Folder;
-use ColorContrast\ColorContrast;
-use League\ColorExtractor\Color;
 use Statamic\Modifiers\Modifier;
-use League\ColorExtractor\Palette;
-use Illuminate\Support\Facades\Cache;
-use Intervention\Image\Facades\Image;
-use League\ColorExtractor\ColorExtractor;
+use Statamic\Support\Arr;
+use Statamic\Support\Str;
 
 class ColorExtractorModifier extends Modifier
 {
