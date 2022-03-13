@@ -33,7 +33,7 @@
         "statamic": {
             "name": "ColorExtractor",
             "description": "Extract colors from images.",
-            "version": "1.1.1"
+            "version": "1.2.0"
         },
         "laravel": {
             "providers": [
