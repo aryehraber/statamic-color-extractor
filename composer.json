@@ -14,7 +14,7 @@
         "davidgorges/color-contrast": "^1.0"
     },
     "require-dev": {
-        "statamic/cms": "^3.0"
+        "statamic/cms": "^3.3"
     },
     "autoload": {
         "psr-4": {
