@@ -118,7 +118,11 @@ class ColorExtractorModifier extends Modifier
             Folder::makeDirectory($tempDir);
         }
 
-        $image = Image::make($this->asset->resolvedPath());
+        $path = strpos($this->asset->url(), 'http') === 0
+            ? $this->asset->absoluteUrl()
+            : $this->asset->resolvedPath();
+
+        $image = Image::make($path);
         [$width, $height] = $this->resizeDimensions();
 
         $image->resize($width, $height, function ($constraint) {
