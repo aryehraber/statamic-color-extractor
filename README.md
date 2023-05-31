@@ -17,7 +17,7 @@ composer require aryehraber/statamic-color-extractor
 Publish the config file:
 
 ```
-php artisan vendor:publish --provider="AryehRaber\ColorExtractor\ColorExtractorServiceProvider" --tag="config"
+php artisan vendor:publish --tag=color_extractor-config
 ```
 
 ## Usage
