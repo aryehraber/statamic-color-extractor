@@ -51,7 +51,17 @@ class ColorExtractorModifier extends Modifier
 
     protected function init($value, $params)
     {
-        $this->asset = Asset::find($value);
+        if ($value instanceof \Statamic\Assets\OrderedQueryBuilder) {
+            $value = $value->first();
+        }
+
+        if ($value instanceof Asset) {
+            $this->asset = $value;
+        } elseif (is_string($value) && $value !== '') {
+            $this->asset = Asset::find($value);
+        } else {
+            $this->asset = null;
+        }
 
         $this->type = in_array(Arr::get($params, 0), self::$strategies)
             ? Arr::get($params, 0)
