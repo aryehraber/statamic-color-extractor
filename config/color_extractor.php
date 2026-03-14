@@ -54,4 +54,16 @@ return [
     */
     'temp_dir' => storage_path('color_extractor'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Auto Extract on Upload
+    |--------------------------------------------------------------------------
+    |
+    | When enabled, colors will automatically be extracted and saved to asset
+    | meta when a new image is uploaded. This happens synchronously during
+    | the upload process.
+    |
+    */
+    'auto_extract' => false,
+
 ];
