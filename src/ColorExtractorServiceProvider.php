@@ -2,10 +2,15 @@
 
 namespace AryehRaber\ColorExtractor;
 
+use AryehRaber\ColorExtractor\Console\Commands\ExtractColorMeta;
 use Statamic\Providers\AddonServiceProvider;
 
 class ColorExtractorServiceProvider extends AddonServiceProvider
 {
+    protected $commands = [
+        ExtractColorMeta::class,
+    ];
+
     protected $modifiers = [
         ColorExtractorModifier::class,
     ];
