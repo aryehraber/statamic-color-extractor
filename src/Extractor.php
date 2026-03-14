@@ -3,8 +3,9 @@
 namespace AryehRaber\ColorExtractor;
 
 use Illuminate\Support\Facades\Cache;
-use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use League\ColorExtractor\Color;
 use League\ColorExtractor\ColorExtractor;
 use League\ColorExtractor\Palette;
@@ -39,10 +40,13 @@ class Extractor
 
         try {
             $color = $this->getColor();
+
             $this->updateAssetMeta($color);
+
             return $color;
         } catch (\Exception $e) {
-            \Log::error('Color Extractor Error: ' . $e->getMessage());
+            Log::error('Color Extractor Error: ' . $e->getMessage());
+
             return null;
         } finally {
             $this->cleanUp();
@@ -55,7 +59,7 @@ class Extractor
 
         foreach (self::$strategies as $type) {
             $existing = Arr::get($asset->meta(), "data.color_{$type}");
-            
+
             if ($existing && ! $force) {
                 $results[$type] = $existing;
                 continue;
@@ -63,7 +67,7 @@ class Extractor
 
             $color = $this->extract($asset, $type, $force);
             $results[$type] = $color;
-            $asset = Asset::find($asset->id());
+            $asset = Asset::find($asset->id()); // refresh asset w/ updated meta
         }
 
         return $results;
