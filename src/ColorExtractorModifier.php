@@ -80,7 +80,7 @@ class ColorExtractorModifier extends Modifier
 
     protected function getColor()
     {
-        $this->img = $this->processImage($this->asset);
+        $this->img = $this->processImage();
 
         $palette = Palette::fromFilename($this->tempImgPath());
 
@@ -109,7 +109,6 @@ class ColorExtractorModifier extends Modifier
 
         $dominant = $colors->get(0);
 
-        // Simple contrast calculation
         $maxContrast = 0;
         $contrastColor = $colors->get(1) ?? $dominant;
 
@@ -129,11 +128,13 @@ class ColorExtractorModifier extends Modifier
 
     protected function calculateColorContrast($color1, $color2)
     {
-        // Strip leading # if present
-        $color1 = ltrim($color1, '#');
-        $color2 = ltrim($color2, '#');
+        $color1 = $this->normalizeHexColor($color1);
+        $color2 = $this->normalizeHexColor($color2);
 
-        // Convert to RGB
+        if (!$color1 || !$color2) {
+            return 0;
+        }
+
         $rgb1 = [
             'r' => hexdec(substr($color1, 0, 2)),
             'g' => hexdec(substr($color1, 2, 2)),
@@ -146,18 +147,27 @@ class ColorExtractorModifier extends Modifier
             'b' => hexdec(substr($color2, 4, 2)),
         ];
 
-        // Calculate relative luminance
         $l1 = $this->getRelativeLuminance($rgb1);
         $l2 = $this->getRelativeLuminance($rgb2);
 
-        // Calculate contrast ratio
         $lighter = max($l1, $l2);
         $darker = min($l1, $l2);
 
         return ($lighter + 0.05) / ($darker + 0.05);
     }
 
-    protected function getRelativeLuminance($rgb)
+    protected function normalizeHexColor($color)
+    {
+        $color = ltrim($color, '#');
+
+        if (strlen($color) === 3) {
+            $color = $color[0].$color[0].$color[1].$color[1].$color[2].$color[2];
+        }
+
+        return strlen($color) === 6 ? $color : null;
+    }
+
+    protected function getRelativeLuminance(array $rgb)
     {
         $r = $rgb['r'] / 255;
         $g = $rgb['g'] / 255;
@@ -180,13 +190,11 @@ class ColorExtractorModifier extends Modifier
             ? $this->asset->absoluteUrl()
             : $this->asset->resolvedPath();
 
-        // Intervention Image 3.x API
         $manager = new ImageManager(new Driver());
         $image = $manager->read($path);
 
         [$width, $height] = $this->resizeDimensions();
 
-        // Resize using new API
         if ($width && $height) {
             $image->scale($width, $height);
         } elseif ($width) {
@@ -198,7 +206,6 @@ class ColorExtractorModifier extends Modifier
         $savePath = "{$tempDir}/{$this->asset->basename()}";
         $image->save($savePath);
 
-        // Return object with path info
         return (object) [
             'dirname' => $tempDir,
             'basename' => $this->asset->basename(),
