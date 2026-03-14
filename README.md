@@ -97,6 +97,36 @@ fields:
       type: color
 ```
 
+## Command
+
+Color extraction happens on-demand when the modifier is first used on an image. This can slow down page loads for pages with many images.
+
+To improve performance, you can pre-generate color data using the included command:
+
+```bash
+# Extract default color type for all assets
+php please color-extractor:extract
+
+# Extract all color types (dominant, average, contrast)
+php please color-extractor:extract --all
+
+# Filter by container
+php please color-extractor:extract --container=assets
+
+# Filter by container and folder
+php please color-extractor:extract --container=assets --folder=products
+
+# Force re-extraction even if colors already exist
+php please color-extractor:extract --force
+```
+
+### Use cases
+
+- **New/uploaded images** - Run after uploading images to pre-generate colors (e.g., new project or batch of new images)
+- **Missing colors** - Use `--force` to regenerate colors if they're missing or incorrect
+
+The command will skip assets that already have color data unless `--force` is used.
+
 ## Credits
 
 Inspiration: https://github.com/sylvainjule/kirby-colorextractor
