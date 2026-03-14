@@ -97,11 +97,13 @@ fields:
       type: color
 ```
 
-## Command
+## Extract Command
 
-Color extraction happens on-demand when the modifier is first used on an image. This can slow down page loads for pages with many images.
+By default, colors are extracted on-demand when the modifier is first used on an image. This can slow down page loads with many images.
 
-To improve performance, you can pre-generate color data using the included command:
+To improve performance, pre-generate color data using the commands below.
+
+Note: The command will skip assets that already have color data unless `--force` is used.
 
 ```bash
 # Extract default color type for all assets
@@ -120,12 +122,9 @@ php please color-extractor:extract --container=assets --folder=products
 php please color-extractor:extract --force
 ```
 
-### Use cases
+## Auto Extract on Asset Upload
 
-- **New/uploaded images** - Run after uploading images to pre-generate colors (e.g., new project or batch of new images)
-- **Missing colors** - Use `--force` to regenerate colors if they're missing or incorrect
-
-The command will skip assets that already have color data unless `--force` is used.
+When `auto_extract` is enabled in the config file (see [Installation](#installation)), colors will automatically be extracted when new images are uploaded. This extracts all 3 color types (dominant, average, contrast) and is useful to ensure there's no slow down on first page load.
 
 ## Credits
 
